@@ -3,9 +3,11 @@ package com.example.jiahaoliu.speakerandheadphones;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
-
         playSound();
     }
 
@@ -26,25 +27,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
-        }
-
+        stopSound();
     }
 
     private void playSound() {
-        AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setMode(AudioManager.STREAM_MUSIC);
-        // Force the music to be played on the speaker
-//        audioManager.setSpeakerphoneOn(true);
-//        audioManager.setWiredHeadsetOn(true);
+        MediaPlayer mp = new MediaPlayer();
+        if(!mp.isPlaying()){
+//            playMusic();
 
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        if(!mediaPlayer.isPlaying()){
-            mMediaPlayer = MediaPlayer.create(mContext, R.raw.alert_now);
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setLooping(true);
-            mMediaPlayer.start();
+            playMusicUsingUri();
+        }
+    }
+
+    private void playMusic() {
+        mMediaPlayer = MediaPlayer.create(mContext, R.raw.alert_now);
+        mMediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+    }
+
+    private void playMusicUsingUri() {
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.reset();
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+
+        Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.alert_now);
+
+            try {
+                mMediaPlayer.setDataSource(mContext, uri);
+                mMediaPlayer.prepare();
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    private void stopSound() {
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
         }
     }
 }
