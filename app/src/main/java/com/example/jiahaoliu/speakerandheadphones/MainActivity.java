@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private void playMusicUsingUri() {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.reset();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+        // This also works
+//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 
         Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.alert_now);
 
