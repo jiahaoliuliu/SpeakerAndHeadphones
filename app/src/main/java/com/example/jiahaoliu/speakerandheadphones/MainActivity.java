@@ -9,6 +9,9 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
+// Credit:
+// - http://android-tech-development.blogspot.ae/2015/07/force-media-through-speaker-in-android.html
+// - http://stackoverflow.com/questions/7057115/android-mediaplayer-how-to-play-in-the-stream-alarm
 public class MainActivity extends AppCompatActivity {
 
     private Context mContext;
