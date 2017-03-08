@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
+        int volume = 1;
+        raiseTheVolume(volume);
         playSound();
     }
 
@@ -31,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         stopSound();
+    }
+
+    private void raiseTheVolume(double volume) {
+        final AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        final int maximumVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION) - 2;
+        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, (int) (maximumVolume * volume), 0);
     }
 
     private void playSound() {
