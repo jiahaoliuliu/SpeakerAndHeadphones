@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Context mContext;
     private MediaPlayer mMediaPlayer;
+    private static final int MEDIA_TYPE = AudioManager.STREAM_ALARM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void raiseTheVolume(double volume) {
         final AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        final int maximumVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION) - 2;
-        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, (int) (maximumVolume * volume), 0);
+        final int maximumVolume = audioManager.getStreamMaxVolume(MEDIA_TYPE) - 2;
+        audioManager.setStreamVolume(MEDIA_TYPE, (int) (maximumVolume * volume), 0);
     }
 
     private void playSound() {
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private void playMusicUsingUri() {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.reset();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+        mMediaPlayer.setAudioStreamType(MEDIA_TYPE);
         // This also works
 //        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 
